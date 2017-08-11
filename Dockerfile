@@ -6,7 +6,7 @@ FROM fluent/fluentd:v0.12-debian-onbuild
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
- && apt-get install -y libkrb5-3 \
+ && apt-get install -y libkrb5-3 libgssapi-krb5-3 \
  && sudo gem install \
         fluent-plugin-elasticsearch \
         fluent-plugin-kafka \
