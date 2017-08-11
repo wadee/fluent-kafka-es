@@ -3,14 +3,17 @@ FROM fluent/fluentd:v0.12-debian-onbuild
 # below RUN includes plugin as examples elasticsearch is not required
 # you may customize including plugins as you wish
 
-RUN apk add --update --virtual .build-deps \
-        sudo build-base ruby-dev libffi-dev \
+RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends $buildDeps \
  && apt-get install -y libkrb53 \
  && sudo gem install \
-        ffi \
         fluent-plugin-elasticsearch \
         fluent-plugin-kafka \
  && sudo gem sources --clear-all \
- && apk del .build-deps \
- && rm -rf /var/cache/apk/* \
+ && SUDO_FORCE_REMOVE=yes \
+    apt-get purge -y --auto-remove \
+                  -o APT::AutoRemove::RecommendsImportant=false \
+                  $buildDeps \
+ && rm -rf /var/lib/apt/lists/* \
            /home/fluent/.gem/ruby/2.3.0/cache/*.gem
