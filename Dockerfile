@@ -4,8 +4,9 @@ FROM fluent/fluentd:v0.12-onbuild
 # you may customize including plugins as you wish
 
 RUN apk add --update --virtual .build-deps \
-        sudo build-base ruby-dev \
+        sudo build-base ruby-dev libffi-dev \
  && sudo gem install \
+        ffi \
         fluent-plugin-elasticsearch \
         fluent-plugin-kafka \
  && sudo gem sources --clear-all \
