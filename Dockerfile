@@ -8,6 +8,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get install -y --no-install-recommends $buildDeps \
  && apt-get install -y libgssapi-krb5-2 \
  && sudo gem install \
+        snappy \
         fluent-plugin-elasticsearch \
         fluent-plugin-kafka \
  && sudo gem sources --clear-all \
