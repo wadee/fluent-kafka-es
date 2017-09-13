@@ -1,21 +1,25 @@
-FROM fluent/fluentd:v0.12-onbuild
+FROM fluent/fluentd:v0.12-debian-onbuild
 
 # below RUN includes plugin as examples elasticsearch is not required
 # you may customize including plugins as you wish
 
-#ENV KAFKA_PORT=9092 \
-#    KAFKA_GROUP="web-app" \
-#    KAFKA_TOPICS="web-app-log"
-
-RUN apk add --update --virtual .build-deps \
-        sudo build-base ruby-dev \
+RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends $buildDeps \
+ && apt-get install -y libgssapi-krb5-2 \
+                 build-essential \
+                 autoconf \
+                 automake \
+                 libtool \
+                 libsnappy-dev \
  && sudo gem install \
+        snappy \
         fluent-plugin-elasticsearch \
         fluent-plugin-kafka \
  && sudo gem sources --clear-all \
- && apk del .build-deps \
- && rm -rf /var/cache/apk/* \
+ && SUDO_FORCE_REMOVE=yes \
+    apt-get purge -y --auto-remove \
+                  -o APT::AutoRemove::RecommendsImportant=false \
+                  $buildDeps \
+ && rm -rf /var/lib/apt/lists/* \
            /home/fluent/.gem/ruby/2.3.0/cache/*.gem
-# && sed -i 's/KAFKA_PORT/${KAFKA_PORT}/' fluent.conf \
-# && sed -i 's/KAFKA_GROUP/${KAFKA_GROUP}/' fluent.conf \
-# && sed -i 's/KAFKA_TOPICS/${KAFKA_TOPICS}/' fluent.conf \
