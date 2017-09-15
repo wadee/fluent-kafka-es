@@ -2,7 +2,11 @@ FROM fluent/fluentd:v0.12-debian-onbuild
 
 # below RUN includes plugin as examples elasticsearch is not required
 # you may customize including plugins as you wish
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
+ENV  TIME_ZONE Asiz/Shanghai
+RUN apk add --no-cache tzdata \
+ && echo "${TIME_ZONE}" > /etc/timezone \
+ && ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime \
+ && dpkg-reconfigure -f noninteractive tzdata
 
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get update \
