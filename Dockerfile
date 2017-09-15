@@ -17,7 +17,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
         snappy \
         fluent-plugin-elasticsearch \
         fluent-plugin-kafka \
-        fluent-plugin-influxdb \
+ && fluent-gem install fluent-plugin-influxdb -v "~> 0.3"  --no-document \
  && sudo gem sources --clear-all \
  && SUDO_FORCE_REMOVE=yes \
     apt-get purge -y --auto-remove \
