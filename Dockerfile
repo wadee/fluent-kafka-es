@@ -2,12 +2,19 @@ FROM fluent/fluentd:v0.12-debian-onbuild
 
 # below RUN includes plugin as examples elasticsearch is not required
 # you may customize including plugins as you wish
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
  && apt-get install -y libgssapi-krb5-2 \
+                 build-essential \
+                 autoconf \
+                 automake \
+                 libtool \
+                 libsnappy-dev \
  && sudo gem install \
+        snappy \
         fluent-plugin-elasticsearch \
         fluent-plugin-kafka \
  && sudo gem sources --clear-all \
