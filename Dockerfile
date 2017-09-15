@@ -15,7 +15,6 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
                  libsnappy-dev \
  && sudo gem install \
         snappy \
-        fluent-plugin-elasticsearch \
         fluent-plugin-kafka \
  && fluent-gem install fluent-plugin-influxdb -v "~> 0.3"  --no-document \
  && sudo gem sources --clear-all \
