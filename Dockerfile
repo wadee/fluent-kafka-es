@@ -14,7 +14,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
                  libtool \
                  libsnappy-dev \
  && sudo gem install \
-        snappy \
+#        snappy \
         fluent-plugin-elasticsearch \
         fluent-plugin-kafka \
  && sudo gem sources --clear-all \
